@@ -1,13 +1,10 @@
-import 'dart:developer';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:entry/entry.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/controllers/profile_hover_controller.dart';
 import 'package:portfolio/screens/about_screen.dart';
+import 'package:portfolio/screens/contact_page.dart';
 import 'package:portfolio/screens/packages_screen.dart';
 import 'package:portfolio/screens/work_screen.dart';
 import 'package:portfolio/utils/colors.dart';
@@ -23,7 +20,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController();
-  int _currentPage = 0;
+  int _currentPage = 1;
   bool isDrawerOpen = false;
   int hoveringPage = -1;
 
@@ -32,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  final pages = [AboutScreen(), WorkScreen(), PackagesScreen()];
+  final pages = [AboutScreen(), WorkScreen(), PackagesScreen(), ContactPage()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

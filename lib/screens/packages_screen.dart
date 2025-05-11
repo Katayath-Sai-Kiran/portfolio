@@ -58,40 +58,47 @@ class PackagesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: Get.width * 0.13),
+    return Column(
+      children: [
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: Get.width * 0.13),
 
-      height: Get.height,
-      color: kBackgroundColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: Get.height * 0.1),
-          Text(
-            "Packages (pub.dev)",
-            style: GoogleFonts.beVietnamPro(
-              color: kWhiteColor,
-              fontWeight: FontWeight.w500,
-              fontSize: 21,
+            height: Get.height,
+            color: kBackgroundColor,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: Get.height * 0.1),
+                Text(
+                  "Packages (pub.dev)",
+                  style: GoogleFonts.beVietnamPro(
+                    color: kWhiteColor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 21,
+                  ),
+                ),
+                SizedBox(height: Get.height * 0.05),
+                Expanded(
+                  child: GridView.builder(
+                    itemCount: packages.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisSpacing: 18,
+                      crossAxisSpacing: 18,
+                      crossAxisCount: 3,
+                      childAspectRatio: 1.6,
+                    ),
+                    itemBuilder: (context, index) {
+                      return PackageCard(package: packages[index]);
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
-          SizedBox(height: Get.height * 0.05),
-          Expanded(
-            child: GridView.builder(
-              itemCount: packages.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                mainAxisSpacing: 18,
-                crossAxisSpacing: 18,
-                crossAxisCount: 3,
-                childAspectRatio: 1.6,
-              ),
-              itemBuilder: (context, index) {
-                return PackageCard(package: packages[index]);
-              },
-            ),
-          ),
-        ],
-      ),
+        ),
+        Divider(height: 1, color: Colors.grey.shade800),
+      ],
     );
   }
 }
