@@ -19,34 +19,40 @@ class WorkScreen extends StatelessWidget {
         "assets/techstack/dart.png",
         "assets/techstack/sentry.png",
         "assets/techstack/github.png",
-        // "assets/techstack/sendgrid.png",
         "assets/techstack/firebase.png",
       ],
     ),
     ProjetcModel(
       name: "TtuthCatcher",
-      points: ["Flutter Web", "Dash Video Streaming", "Nester Navigation"],
+      points: [
+        "Built a custom camera module in Flutter to capture high-resolution photos",
+        "Applied design thinking principles to transform Figma prototypes into intuitive",
+        "Integrated In-App Purchases (IAP)",
+      ],
       banner: "assets/logos/tc.png",
       description:
           "A blockchain-powered app that enables users to capture and verify authentic moments by minting them as NFTs, combating deepfakes and misinformation in real-time",
       techStack: [
         "assets/techstack/flutter.png",
         "assets/techstack/dart.png",
-        "assets/techstack/sentry.png",
         "assets/techstack/github.png",
         "assets/techstack/firebase.png",
       ],
     ),
     ProjetcModel(
       name: "Aezo",
-      points: ["Flutter Web", "Dash Video Streaming", "Nester Navigation"],
+      points: [
+        "Integrated Bubble.io as the backend platform",
+        "Built custom UI components",
+        "Applied performance optimization techniques",
+      ],
       banner: "assets/logos/aezo.png",
       description:
-          "Money Minds is an educational platform designed to empower individuals with the skills, knowledge, and resources to build and grow their personal wealth. It offers expert-led training, practical business strategies, and a supportive community to help you unlock your financial potential. Whether you're looking to start a business, boost your income, or master financial literacy, Money Minds provides the tools and insights to accelerate your journey to financial freedom.",
+          "Aezo is a platform tailored for trade associations, enabling streamlined member management, communication, and engagement through a responsive and customizable UI.",
       techStack: [
         "assets/techstack/flutter.png",
         "assets/techstack/dart.png",
-        "assets/techstack/sentry.png",
+        "assets/techstack/bubbble.png",
         "assets/techstack/github.png",
         "assets/techstack/firebase.png",
       ],
@@ -107,7 +113,6 @@ class WorkScreen extends StatelessWidget {
           ),
         ),
         Divider(height: 1, color: Colors.grey.shade800),
-      
       ],
     );
   }
@@ -240,13 +245,16 @@ class _ProjectCardState extends State<ProjectCard> {
                                           color: kPrimaryColor,
                                         ),
                                         SizedBox(width: 8),
-                                        Text(
-                                          e,
-                                          maxLines: 4,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: GoogleFonts.beVietnamPro(
-                                            color: kWhiteColor,
-                                            fontSize: 12,
+                                        Flexible(
+                                          child: Text(
+                                            e,
+                                            maxLines: 1,
+
+                                            overflow: TextOverflow.ellipsis,
+                                            style: GoogleFonts.beVietnamPro(
+                                              color: kWhiteColor,
+                                              fontSize: 12,
+                                            ),
                                           ),
                                         ),
                                       ],
