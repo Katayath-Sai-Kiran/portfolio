@@ -55,7 +55,7 @@ class AboutScreen extends StatelessWidget {
         isMobile = constraints.maxWidth < 600;
         return Column(
           children: [
-            if (isMobile) SizedBox(height: isMobile ? 16 : Get.height * 0.17),
+            SizedBox(height: isMobile ? 16 : Get.height * 0.17),
             if (isMobile)
               Stack(
                 children: [

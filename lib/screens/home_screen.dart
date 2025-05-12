@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageController = PageController();
-  int _currentPage = 1;
+  int _currentPage = 0;
   bool isDrawerOpen = false;
   int hoveringPage = -1;
 
