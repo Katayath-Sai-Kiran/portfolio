@@ -5,7 +5,9 @@ import 'package:portfolio/models/projetc_model.dart';
 import 'package:portfolio/utils/colors.dart';
 
 class WorkScreen extends StatelessWidget {
-  const WorkScreen({super.key});
+  WorkScreen({super.key});
+
+  late bool isMobile;
 
   static List<ProjetcModel> projects = [
     ProjetcModel(
@@ -74,46 +76,53 @@ class WorkScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: Get.width * 0.13),
-            height: Get.height,
-            color: kBackgroundColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: Get.height * 0.1),
-                Text(
-                  "Projects",
-                  style: GoogleFonts.beVietnamPro(
-                    color: kWhiteColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 21,
-                  ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        isMobile = constraints.maxWidth < 600;
+        return Column(
+          children: [
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 16 : Get.width * 0.13,
                 ),
-                SizedBox(height: Get.height * 0.05),
-                Expanded(
-                  child: GridView.builder(
-                    itemCount: projects.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 24,
-                      crossAxisSpacing: 24,
-                      crossAxisCount: 3,
-                      childAspectRatio: 1.4,
+                height: Get.height,
+                color: kBackgroundColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: isMobile ? 16 : Get.height * 0.1),
+                    Text(
+                      "Projects",
+                      style: GoogleFonts.beVietnamPro(
+                        color: kWhiteColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 21,
+                      ),
                     ),
-                    itemBuilder: (context, index) {
-                      return ProjectCard(project: projects[index]);
-                    },
-                  ),
+                    SizedBox(height: isMobile ? 16 : Get.height * 0.05),
+                    Expanded(
+                      child: GridView.builder(
+                        itemCount: projects.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisSpacing: isMobile ? 12 : 24,
+                          crossAxisSpacing: isMobile ? 12 : 24,
+                          crossAxisCount: isMobile ? 1 : 3,
+                          childAspectRatio: isMobile ? 1.6 : 1.4,
+                        ),
+                        itemBuilder: (context, index) {
+                          return ProjectCard(project: projects[index]);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-        Divider(height: 1, color: Colors.grey.shade800),
-      ],
+            Divider(height: 1, color: Colors.grey.shade800),
+          ],
+        );
+      },
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:portfolio/screens/about_screen.dart';
 import 'package:portfolio/screens/contact_page.dart';
 import 'package:portfolio/screens/packages_screen.dart';
 import 'package:portfolio/screens/work_screen.dart';
+import 'package:portfolio/urtils/responsive_utils.dart';
 import 'package:portfolio/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,75 +33,93 @@ class _HomeScreenState extends State<HomeScreen> {
   final pages = [AboutScreen(), WorkScreen(), PackagesScreen(), ContactPage()];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: SizedBox(
-        width: Get.width,
-        height: Get.height,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                Container(
-                  width: Get.width,
-                  height: 80,
-                  padding: EdgeInsets.all(16),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final bool isMobile = constraints.maxWidth < 600;
+        return Scaffold(
+          backgroundColor: kBackgroundColor,
+          body: SizedBox(
+            width: Get.width,
+            height: Get.height,
+            child: GestureDetector(
+              onTap:
+                  isDrawerOpen
+                      ? () {
+                        isDrawerOpen = false;
+                        setState(() {});
+                      }
+                      : null,
+              child: Stack(
+                children: [
+                  Column(
                     children: [
-                      IconButton(
-                        onPressed: () {
-                          isDrawerOpen = !isDrawerOpen;
-                          setState(() {});
-                        },
-                        icon: Icon(Icons.menu, color: kWhiteColor, size: 32),
-                      ),
-                      Text(
-                        "Portfolio",
-                        style: GoogleFonts.bebasNeue(
-                          color: kPrimaryColor,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
+                      Container(
+                        width: Get.width,
+                        height: 80,
+                        padding: EdgeInsets.all(16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                isDrawerOpen = !isDrawerOpen;
+                                setState(() {});
+                              },
+                              icon: Icon(
+                                Icons.menu,
+                                color: kWhiteColor,
+                                size: 32,
+                              ),
+                            ),
+                            Text(
+                              "Portfolio",
+                              style: GoogleFonts.bebasNeue(
+                                color: kPrimaryColor,
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            SizedBox(width: 0),
+                          ],
                         ),
                       ),
-                      SizedBox(width: 0),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: Get.height - 80,
-                          child: PageView.builder(
-                            pageSnapping: false,
-                            controller: _pageController,
-                            itemCount: pages.length,
-                            scrollDirection: Axis.vertical,
-                            onPageChanged: (index) {
-                              setState(() {
-                                _currentPage = index;
-                              });
-                            },
-                            itemBuilder: (context, index) {
-                              return pages[index];
-                            },
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: Get.height - 80,
+                                child: PageView.builder(
+                                  pageSnapping: false,
+                                  controller: _pageController,
+                                  itemCount: pages.length,
+                                  scrollDirection: Axis.vertical,
+                                  onPageChanged: (index) {
+                                    setState(() {
+                                      _currentPage = index;
+                                    });
+                                  },
+                                  itemBuilder: (context, index) {
+                                    return pages[index];
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  _drawer(),
+                  if (!isMobile) _pageIndicator(),
+                ],
+              ),
             ),
-            _drawer(),
-            _pageIndicator(),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -357,12 +376,15 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   AnimatedPositioned _drawer() {
+    final bool isMobile = ResponsiveUtils.isMobile();
+
+    final double layoutWidth = isMobile ? Get.width * 0.7 : Get.width * 0.17;
     return AnimatedPositioned(
       duration: Duration(milliseconds: 300),
-      left: isDrawerOpen ? 0 : -Get.width * 0.17,
+      left: isDrawerOpen ? 0 : -layoutWidth,
       child: Container(
         height: Get.height,
-        width: Get.width * 0.17,
+        width: layoutWidth,
         color: kPrimaryColor,
         child: Column(
           children: [
@@ -399,7 +421,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   padding: EdgeInsets.all(16),
-                  width: Get.width * 0.17,
+                  width: layoutWidth,
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(color: kBackgroundColor),
@@ -434,7 +456,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   padding: EdgeInsets.all(16),
-                  width: Get.width * 0.17,
+                  width: layoutWidth,
                   decoration: BoxDecoration(
                     border: Border(bottom: BorderSide(color: kBackgroundColor)),
                   ),
@@ -467,7 +489,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   padding: EdgeInsets.all(16),
-                  width: Get.width * 0.17,
+                  width: layoutWidth,
                   decoration: BoxDecoration(
                     border: Border(bottom: BorderSide(color: kBackgroundColor)),
                   ),
@@ -498,7 +520,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
                 child: Container(
                   padding: EdgeInsets.all(16),
-                  width: Get.width * 0.17,
+                  width: layoutWidth,
                   decoration: BoxDecoration(
                     border: Border(bottom: BorderSide(color: kBackgroundColor)),
                   ),

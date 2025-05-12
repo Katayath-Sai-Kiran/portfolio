@@ -6,7 +6,7 @@ import 'package:portfolio/utils/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PackagesScreen extends StatelessWidget {
-  const PackagesScreen({super.key});
+  PackagesScreen({super.key});
 
   static List<PackageModel> packages = [
     PackageModel(
@@ -55,50 +55,57 @@ class PackagesScreen extends StatelessWidget {
       pubPoints: 160,
     ),
   ];
-
+  late bool isMobile;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: Get.width * 0.13),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        isMobile = constraints.maxWidth < 600;
+        return Column(
+          children: [
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 16 : Get.width * 0.13,
+                ),
 
-            height: Get.height,
-            color: kBackgroundColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: Get.height * 0.1),
-                Text(
-                  "Packages (pub.dev)",
-                  style: GoogleFonts.beVietnamPro(
-                    color: kWhiteColor,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 21,
-                  ),
-                ),
-                SizedBox(height: Get.height * 0.05),
-                Expanded(
-                  child: GridView.builder(
-                    itemCount: packages.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisSpacing: 18,
-                      crossAxisSpacing: 18,
-                      crossAxisCount: 3,
-                      childAspectRatio: 1.6,
+                height: Get.height,
+                color: kBackgroundColor,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: isMobile ? 16 : Get.height * 0.1),
+                    Text(
+                      "Packages (pub.dev)",
+                      style: GoogleFonts.beVietnamPro(
+                        color: kWhiteColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 21,
+                      ),
                     ),
-                    itemBuilder: (context, index) {
-                      return PackageCard(package: packages[index]);
-                    },
-                  ),
+                    SizedBox(height: isMobile ? 16 : Get.height * 0.05),
+                    Expanded(
+                      child: GridView.builder(
+                        itemCount: packages.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisSpacing: 18,
+                          crossAxisSpacing: 18,
+                          crossAxisCount: isMobile ? 1 : 3,
+                          childAspectRatio: isMobile ? 1.7 : 1.6,
+                        ),
+                        itemBuilder: (context, index) {
+                          return PackageCard(package: packages[index]);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-        Divider(height: 1, color: Colors.grey.shade800),
-      ],
+            Divider(height: 1, color: Colors.grey.shade800),
+          ],
+        );
+      },
     );
   }
 }

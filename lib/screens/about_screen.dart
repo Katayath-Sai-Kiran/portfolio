@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:portfolio/controllers/profile_hover_controller.dart';
 import 'package:portfolio/models/package_model.dart';
 import 'package:portfolio/screens/packages_screen.dart';
+import 'package:portfolio/urtils/responsive_utils.dart';
 import 'package:portfolio/utils/colors.dart';
 import 'package:provider/provider.dart';
 
@@ -46,87 +47,141 @@ class AboutScreen extends StatelessWidget {
     'Shalom', // Hebrew
   ];
 
+  bool isMobile = false;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: Get.height * 0.17),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: Get.width * 0.13),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                flex: 6,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 24,
-                      width: 200,
-                      child: DefaultTextStyle(
-                        style: GoogleFonts.beVietnamPro(
-                          color: kWhiteColor,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 21,
-                        ),
-                        child: AnimatedTextKit(
-                          repeatForever: true,
-                          animatedTexts:
-                              greetings.map((e) {
-                                return FadeAnimatedText(
-                                  e,
-                                  duration: Duration(milliseconds: 1500),
-                                  fadeInEnd: 0.1,
-                                  fadeOutBegin: 0.9,
-                                );
-                              }).toList(),
-
-                          onTap: () {
-                            print("Tap Event");
-                          },
-                        ),
-                      ),
-                    ),
-
-                    Row(
-                      children: [
-                        Text(
-                          "I'm",
-                          style: GoogleFonts.beVietnamPro(
-                            color: kWhiteColor,
-                            fontSize: 46,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                        Text(
-                          " Sai Kiran",
-                          style: GoogleFonts.beVietnamPro(
-                            color: kWhiteColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 46,
-                          ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        isMobile = constraints.maxWidth < 600;
+        return Column(
+          children: [
+            if (isMobile) SizedBox(height: isMobile ? 16 : Get.height * 0.17),
+            if (isMobile)
+              Stack(
+                children: [
+                  Container(
+                    width: Get.height * 0.5,
+                    height: Get.height * 0.5,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 20,
+                          offset: Offset(0, 10),
                         ),
                       ],
                     ),
-                    Text(
-                      "I write Flutter code that mostly works—and when it doesn't, I pretend it's a feature",
-                      style: GoogleFonts.beVietnamPro(
-                        color: kWhiteColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 21,
-                      ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Image.asset(
+                      "assets/images/profile.jpg",
+                      fit: BoxFit.cover,
                     ),
+                  ),
+                  Positioned(
+                    bottom: 0,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                          colors: [
+                            Colors.black45,
+                            Colors.black45,
+                            Colors.black38,
+                            Colors.black12,
+                            Colors.transparent,
+                          ],
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(16.0),
+                      child: _greetings(),
+                    ),
+                  ),
+                ],
+              ),
+            if (!isMobile)
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: Get.width * 0.13),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(flex: 6, child: _greetings()),
+                    SizedBox(width: 32),
+                    Expanded(flex: 4, child: ProfileHoverEffect()),
                   ],
                 ),
               ),
-              SizedBox(width: 32),
-              Expanded(flex: 4, child: ProfileHoverEffect()),
-            ],
+            Spacer(),
+            Divider(height: 1, color: Colors.grey.shade800),
+          ],
+        );
+      },
+    );
+  }
+
+  Column _greetings() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 24,
+          width: isMobile ? Get.width : 200,
+          child: DefaultTextStyle(
+            style: GoogleFonts.beVietnamPro(
+              color: kWhiteColor,
+              fontWeight: FontWeight.w500,
+              fontSize: isMobile ? 17 : 21,
+            ),
+            child: AnimatedTextKit(
+              repeatForever: true,
+              animatedTexts:
+                  greetings.map((e) {
+                    return FadeAnimatedText(
+                      e,
+                      duration: Duration(milliseconds: 1500),
+                      fadeInEnd: 0.1,
+                      fadeOutBegin: 0.9,
+                    );
+                  }).toList(),
+
+              onTap: () {
+                print("Tap Event");
+              },
+            ),
           ),
         ),
-        Spacer(),
-        Divider(height: 1, color: Colors.grey.shade800),
+
+        Row(
+          children: [
+            Text(
+              "I'm",
+              style: GoogleFonts.beVietnamPro(
+                color: kWhiteColor,
+                fontSize: isMobile ? 32 : 46,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            Text(
+              " Sai Kiran",
+              style: GoogleFonts.beVietnamPro(
+                color: kWhiteColor,
+                fontWeight: FontWeight.w600,
+                fontSize: isMobile ? 32 : 46,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          width: isMobile ? Get.width * 0.9 : null,
+          child: Text(
+            "I write Flutter code that mostly works—and when it doesn't, I pretend it's a feature",
+            style: GoogleFonts.beVietnamPro(
+              color: kWhiteColor,
+              fontWeight: FontWeight.w500,
+              fontSize: isMobile ? 17 : 21,
+            ),
+          ),
+        ),
       ],
     );
   }
